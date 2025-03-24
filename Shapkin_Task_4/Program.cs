@@ -9,7 +9,7 @@
     private static int _mapWidth;
     private static int _mapHeight;
     private static Random _random = new Random();
-    private static string _mapFilePath = "maze.txt"; // Путь к файлу с лабиринтом (В данный момент путь к TrainingPractice_01\Shapkin_Task_4\bin\Debug\net8.0)
+    private static string _mapFilePath = "maze.txt"; // Путь к файлу с лабиринтом (нужно поместить в папку debug / прописать полный путь)
     private static (int X, int Y) _endPoint;
     private static bool _gameOver = false;
 
@@ -172,7 +172,7 @@
     static void DrawHealthBar(int x, int y, int percentage)
     {
         Console.SetCursorPosition(x, y);
-        Console.Write("[");
+        Console.Write("HP [");
 
         int filled = percentage / 10;
         for (int i = 0; i < filled; i++)
