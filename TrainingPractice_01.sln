@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shapkin_Task_2", "Shapkin_T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shapkin_Task_3", "Shapkin_Task_3\Shapkin_Task_3.csproj", "{7B8CF0FB-9E99-48D6-94F1-9D6E582FB3E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapkin_Task_4", "Shapkin_Task_4\Shapkin_Task_4.csproj", "{8DC34D0F-D11B-4FFA-89AF-EF46E2F6BF58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shapkin_Task_4", "Shapkin_Task_4\Shapkin_Task_4.csproj", "{8DC34D0F-D11B-4FFA-89AF-EF46E2F6BF58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapkin_Task_5", "Shapkin_Task_5\Shapkin_Task_5.csproj", "{72280090-D163-4411-935D-60618087214C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{8DC34D0F-D11B-4FFA-89AF-EF46E2F6BF58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DC34D0F-D11B-4FFA-89AF-EF46E2F6BF58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DC34D0F-D11B-4FFA-89AF-EF46E2F6BF58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72280090-D163-4411-935D-60618087214C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72280090-D163-4411-935D-60618087214C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72280090-D163-4411-935D-60618087214C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72280090-D163-4411-935D-60618087214C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
