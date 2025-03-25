@@ -4,15 +4,48 @@
 
     static void Main(string[] args)
     {
-        Console.Write("-- Шахматы. Введите ход в формате: название белой фигуры, пробел, координаты белой фигуры, пробел, название черной фигуры, пробел, координаты черной фигуры\n");
-        Console.Write("| Введите исходные данные: ");
+        Console.WriteLine("-- Шахматы\n");
+        Console.WriteLine("| Типы ввода");
+        Console.WriteLine("1 - Ввод одной строкой");
+        Console.WriteLine("2 - Ввод по отдельности");
+        Console.Write("|| Ваш выбор: ");
+
+        int inputType;
+        while (!int.TryParse(Console.ReadLine(), out inputType) || (inputType != 1 && inputType != 2))
+            Console.WriteLine("|| Неверный выбор. Введите 1 или 2.");
+
+        ChessPosition chessPosition = GetChessPosition(inputType);
+
+        if (chessPosition != null)
+        {
+            bool canReachTarget = CanWhitePieceReachTarget(chessPosition);
+            if (canReachTarget)
+                Console.WriteLine($"|| {CapitalizeFirstLetter(chessPosition.WhitePieceName)} дойдет до {ConvertPositionToString(chessPosition.TargetX, chessPosition.TargetY)}");
+            else
+                Console.WriteLine($"|| {CapitalizeFirstLetter(chessPosition.WhitePieceName)} не дойдет до {ConvertPositionToString(chessPosition.TargetX, chessPosition.TargetY)}, попадет под удар");
+        }
+    }
+
+    static ChessPosition GetChessPosition(int inputType)
+    {
+        if (inputType == 1)
+            return GetChessPositionFromSingleLine();
+        else
+            return GetChessPositionFromSeparateLines();
+    }
+
+    static ChessPosition GetChessPositionFromSingleLine()
+    {
+        Console.WriteLine("\n| Формат: название белой фигуры, пробел, координаты белой фигуры, пробел, название черной фигуры, пробел, координаты черной фигуры, координаты конечной точки белой фигуры");
+        Console.WriteLine("| Доступные фигуры: ладья, конь, слон, ферзь, король");
+        Console.Write("|| Введите данные по формату: ");
         string input = Console.ReadLine();
 
         string[] inputParts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         if (inputParts.Length != 5)
         {
-            Console.WriteLine("Неверный формат ввода.");
-            return;
+            Console.WriteLine("|| Неверный формат ввода.");
+            return null;
         }
 
         string whitePieceName = inputParts[0].ToLower();
@@ -21,18 +54,16 @@
         string blackPiecePosition = inputParts[3].ToLower();
         string targetPosition = inputParts[4].ToLower();
 
-        // Проверка допустимости фигур
         if (!IsValidPieceName(whitePieceName) || !IsValidPieceName(blackPieceName))
         {
-            Console.WriteLine("Недопустимое название фигуры.");
-            return;
+            Console.WriteLine("|| Недопустимое название фигуры.");
+            return null;
         }
 
-        // Проверка корректности координат
         if (!IsValidPosition(whitePiecePosition) || !IsValidPosition(blackPiecePosition) || !IsValidPosition(targetPosition))
         {
-            Console.WriteLine("Некорректные координаты.");
-            return;
+            Console.WriteLine("|| Некорректные координаты.");
+            return null;
         }
 
         (int whitePieceX, int whitePieceY) = ParsePosition(whitePiecePosition);
@@ -52,35 +83,84 @@
             TargetY = targetY
         };
 
-        bool canReachTarget = CanWhitePieceReachTarget(chessPosition);
-        if (canReachTarget)
+        return chessPosition;
+    }
+
+    static ChessPosition GetChessPositionFromSeparateLines()
+    {
+        Console.WriteLine("\n| Введите данные");
+        Console.WriteLine("| Доступные фигуры: ладья, конь, слон, ферзь, король");
+
+        Console.Write("|| Название белой фигуры: ");
+        string whitePieceName = Console.ReadLine().ToLower();
+        if (!IsValidPieceName(whitePieceName))
         {
-            Console.WriteLine($"{CapitalizeFirstLetter(whitePieceName)} дойдет до {targetPosition}");
+            Console.WriteLine("|| Недопустимое название фигуры.");
+            return null;
         }
-        else
+
+        Console.Write("|| Координаты белой фигуры (например, a1): ");
+        string whitePiecePosition = Console.ReadLine().ToLower();
+        if (!IsValidPosition(whitePiecePosition))
         {
-            Console.WriteLine($"{CapitalizeFirstLetter(whitePieceName)} не дойдет до {targetPosition}, попадет под удар");
+            Console.WriteLine("|| Некорректные координаты.");
+            return null;
         }
+        (int whitePieceX, int whitePieceY) = ParsePosition(whitePiecePosition);
+
+        Console.Write("|| Название черной фигуры: ");
+        string blackPieceName = Console.ReadLine().ToLower();
+        if (!IsValidPieceName(blackPieceName))
+        {
+            Console.WriteLine("|| Недопустимое название фигуры.");
+            return null;
+        }
+
+        Console.Write("|| Координаты черной фигуры (например, b2): ");
+        string blackPiecePosition = Console.ReadLine().ToLower();
+        if (!IsValidPosition(blackPiecePosition))
+        {
+            Console.WriteLine("|| Некорректные координаты.");
+            return null;
+        }
+        (int blackPieceX, int blackPieceY) = ParsePosition(blackPiecePosition);
+
+        Console.Write("|| Координаты конечной точки белой фигуры (например, c3): ");
+        string targetPosition = Console.ReadLine().ToLower();
+        if (!IsValidPosition(targetPosition))
+        {
+            Console.WriteLine("|| Некорректные координаты.");
+            return null;
+        }
+        (int targetX, int targetY) = ParsePosition(targetPosition);
+
+        var chessPosition = new ChessPosition
+        {
+            WhitePieceName = whitePieceName,
+            WhitePieceX = whitePieceX,
+            WhitePieceY = whitePieceY,
+            BlackPieceName = blackPieceName,
+            BlackPieceX = blackPieceX,
+            BlackPieceY = blackPieceY,
+            TargetX = targetX,
+            TargetY = targetY
+        };
+
+        return chessPosition;
     }
 
     static bool IsValidPieceName(string pieceName)
     {
         foreach (string validName in ValidPieceNames)
-        {
             if (pieceName == validName)
-            {
                 return true;
-            }
-        }
         return false;
     }
 
     static bool IsValidPosition(string position)
     {
         if (position.Length != 2)
-        {
             return false;
-        }
 
         char file = position[0];
         char rank = position[1];
@@ -93,6 +173,13 @@
         int x = position[0] - 'a' + 1;
         int y = position[1] - '1' + 1;
         return (x, y);
+    }
+
+    static string ConvertPositionToString(int x, int y)
+    {
+        char file = (char)('a' + x - 1);
+        char rank = (char)('1' + y - 1);
+        return $"{file}{rank}";
     }
 
     static bool CanWhitePieceReachTarget(ChessPosition position)
@@ -131,23 +218,15 @@
             if (rookY < targetY)
             {
                 for (int y = rookY + 1; y <= targetY; y++)
-                {
                     if ((y == blackPieceY && rookX == blackPieceX) || (y == targetY && rookX == blackPieceX && y != blackPieceY)) // Препятствие на пути или цель под ударом
-                    {
                         return false;
-                    }
-                }
                 return true;
             }
             else if (rookY > targetY)
             {
                 for (int y = rookY - 1; y >= targetY; y--)
-                {
                     if ((y == blackPieceY && rookX == blackPieceX) || (y == targetY && rookX == blackPieceX && y != blackPieceY)) // Препятствие на пути или цель под ударом
-                    {
                         return false;
-                    }
-                }
                 return true;
             }
         }
@@ -157,28 +236,20 @@
             if (rookX < targetX)
             {
                 for (int x = rookX + 1; x <= targetX; x++)
-                {
                     if ((x == blackPieceX && rookY == blackPieceY) || (x == targetX && rookY == blackPieceY && x != blackPieceX)) // Препятствие на пути или цель под ударом
-                    {
                         return false;
-                    }
-                }
                 return true;
             }
             else if (rookX > targetX)
             {
                 for (int x = rookX - 1; x >= targetX; x--)
-                {
                     if ((x == blackPieceX && rookY == blackPieceY) || (x == targetX && rookY == blackPieceY && x != blackPieceX)) // Препятствие на пути или цель под ударом
-                    {
                         return false;
-                    }
-                }
                 return true;
             }
         }
 
-        return false; // Недопустимый ход.
+        return false; // Недопустимый ход
     }
 
     static bool CanKnightReachTarget(ChessPosition position)
@@ -224,9 +295,7 @@
             while (currentX != targetX && currentY != targetY)
             {
                 if (currentX == blackPieceX && currentY == blackPieceY)
-                {
                     return false; // Препятствие на пути
-                }
 
                 currentX += xDirection;
                 currentY += yDirection;
@@ -271,9 +340,7 @@
     static string CapitalizeFirstLetter(string str)
     {
         if (string.IsNullOrEmpty(str))
-        {
             return str;
-        }
         return char.ToUpper(str[0]) + str.Substring(1);
     }
 }
