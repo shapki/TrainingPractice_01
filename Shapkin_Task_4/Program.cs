@@ -9,13 +9,17 @@
     private static int _mapWidth;
     private static int _mapHeight;
     private static Random _random = new Random();
-    private static string _mapFilePath = "maze.txt"; // Путь к файлу с лабиринтом (нужно поместить в папку TrainingPractice_01\Shapkin_Task_4\bin\Debug\net8.0)
+    private static string _mapFilePath = "maze.txt"; // Путь к файлу с лабиринтом
     private static (int X, int Y) _endPoint;
     private static bool _gameOver = false;
 
     static void Main(string[] args)
     {
-        LoadMap(_mapFilePath);
+        string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        string solutionDirectory = Path.Combine(projectDirectory, "..", "..", "..");
+        string fullPath = Path.Combine(solutionDirectory, _mapFilePath);
+
+        LoadMap(fullPath);
         SpawnPlayer();
         SpawnEnemies(5);
 
@@ -78,6 +82,7 @@
         catch (FileNotFoundException)
         {
             Console.WriteLine("Файл с лабиринтом не найден!");
+            Console.WriteLine($"Проверьте, что файл {filePath} существует.");
             Environment.Exit(1);
         }
         catch (Exception e)
