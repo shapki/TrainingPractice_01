@@ -1,8 +1,5 @@
 ﻿class Program
 {
-    /// <summary>
-    /// Цена одного кристалла
-    /// </summary>
     public const int CrystalPrice = 15;
 
     static void Main(string[] args)
@@ -26,10 +23,6 @@
         return crystalsToBuy * CrystalPrice;
     }
 
-    /// <summary>
-    /// Выполнение покупки кристаллов, вычисляя остаток золота и количество приобретенных кристаллов
-    /// </summary>
-    /// <returns>Несколько параметров, содержащие остаток золота, количество приобретенных кристаллов и сообщение о результате покупки</returns>
     static (int, int, string) PerformPurchase(int goldAmount, int purchaseCost, int crystalsToBuy)
     {
         bool isPurchaseSuccessful = goldAmount >= purchaseCost;
@@ -44,9 +37,6 @@
         return (remainingGold, acquiredCrystals, message);
     }
 
-    /// <summary>
-    /// Отображение результата покупки
-    /// </summary>
     static void DisplayPurchaseResult(int remainingGold, int acquiredCrystals, string purchaseMessage)
     {
         Console.WriteLine(purchaseMessage);

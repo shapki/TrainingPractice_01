@@ -1,8 +1,5 @@
 ﻿class Program
 {
-    /// <summary>
-    /// Массив допустимых названий шахматных фигур.
-    /// </summary>
     public static readonly string[] ValidPieceNames = { "ладья", "конь", "слон", "ферзь", "король" };
 
     static void Main(string[] args)
@@ -66,10 +63,6 @@
         }
     }
 
-    /// <summary>
-    /// Проверка, является ли название фигуры допустимым
-    /// </summary>
-    /// <returns>True, если название допустимо, иначе - False</returns>
     static bool IsValidPieceName(string pieceName)
     {
         foreach (string validName in ValidPieceNames)
@@ -82,10 +75,6 @@
         return false;
     }
 
-    /// <summary>
-    /// Проверка, является ли позиция на шахматной доске допустимой
-    /// </summary>
-    /// <returns>True, если позиция допустима, иначе - False</returns>
     static bool IsValidPosition(string position)
     {
         if (position.Length != 2)
@@ -99,10 +88,6 @@
         return file >= 'a' && file <= 'h' && rank >= '1' && rank <= '8';
     }
 
-    /// <summary>
-    /// Преобразование позиции на шахматной доске в координаты X и Y
-    /// </summary>
-    /// <returns>Кортеж с координатами X и Y</returns>
     static (int, int) ParsePosition(string position)
     {
         int x = position[0] - 'a' + 1;
@@ -110,10 +95,6 @@
         return (x, y);
     }
 
-    /// <summary>
-    /// Определение, может ли белая фигура достичь целевой позиции
-    /// </summary>
-    /// <returns>True, если белая фигура может достичь целевой позиции, иначе - False</returns>
     static bool CanWhitePieceReachTarget(ChessPosition position)
     {
         switch (position.WhitePieceName)
@@ -133,10 +114,6 @@
         }
     }
 
-    /// <summary>
-    /// Определение, может ли ладья достичь целевой позиции
-    /// </summary>
-    /// <returns>True, если ладья может достичь целевой позиции, иначе - False</returns>
     static bool CanRookReachTarget(ChessPosition position)
     {
         int rookX = position.WhitePieceX;
@@ -204,10 +181,6 @@
         return false; // Недопустимый ход.
     }
 
-    /// <summary>
-    /// Определение, может ли конь достичь целевой позиции
-    /// </summary>
-    /// <returns>True, если конь может достичь целевой позиции, иначе - False</returns>
     static bool CanKnightReachTarget(ChessPosition position)
     {
         int knightX = position.WhitePieceX;
@@ -230,10 +203,6 @@
         return false; // Недопустимый ход
     }
 
-    /// <summary>
-    /// Определение, может ли слон достичь целевой позиции
-    /// </summary>
-    /// <returns>True, если слон может достичь целевой позиции, иначе - False</returns>
     static bool CanBishopReachTarget(ChessPosition position)
     {
         int bishopX = position.WhitePieceX;
@@ -271,20 +240,12 @@
         return false; // Недопустимый ход
     }
 
-    /// <summary>
-    /// Определение, может ли ферзь достичь целевой позиции
-    /// </summary>
-    /// <returns>True, если ферзь может достичь целевой позиции, иначе - False</returns>
     static bool CanQueenReachTarget(ChessPosition position)
     {
         // Ферзь ходит как ладья и слон
         return CanRookReachTarget(position) || CanBishopReachTarget(position);
     }
 
-    /// <summary>
-    /// Определение, может ли король достичь целевой позиции
-    /// </summary>
-    /// <returns>True, если король может достичь целевой позиции, иначе - False</returns>
     static bool CanKingReachTarget(ChessPosition position)
     {
         int kingX = position.WhitePieceX;
@@ -307,10 +268,6 @@
         return false; // Недопустимый ход
     }
 
-    /// <summary>
-    /// Преобразование первой буквы строки в заглавную
-    /// </summary>
-    /// <returns>Строка с первой заглавной буквой</returns>
     static string CapitalizeFirstLetter(string str)
     {
         if (string.IsNullOrEmpty(str))
@@ -321,9 +278,6 @@
     }
 }
 
-/// <summary>
-/// Информация о позиции фигур на шахматной доске
-/// </summary>
 class ChessPosition
 {
     public string WhitePieceName { get; set; }

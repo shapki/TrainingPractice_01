@@ -49,9 +49,6 @@
         }
     }
 
-    /// <summary>
-    /// Загрузка карты лабиринта из указанного файла
-    /// </summary>
     static void LoadMap(string filePath)
     {
         try
@@ -90,9 +87,6 @@
         }
     }
 
-    /// <summary>
-    /// Размещение игрока на карте в начальной позиции, обозначенной 'S'
-    /// </summary>
     static void SpawnPlayer()
     {
         // Ищем свободное место для спавна игрока (не стена)
@@ -114,9 +108,6 @@
         Environment.Exit(1);
     }
 
-    /// <summary>
-    /// Размещение указанного количества врагов на карте в случайных свободных позициях
-    /// </summary>
     static void SpawnEnemies(int numberOfEnemies)
     {
         for (int i = 0; i < numberOfEnemies; i++)
@@ -132,9 +123,6 @@
         }
     }
 
-    /// <summary>
-    /// Перемещение врагов по карте в случайном направлении
-    /// </summary>
     static void MoveEnemies()
     {
         while (!_gameOver)
@@ -164,9 +152,6 @@
         }
     }
 
-    /// <summary>
-    /// Отображение карты лабиринта, игрока и врагов
-    /// </summary>
     static void DrawMap()
     {
         for (int i = 0; i < _mapHeight; i++)
@@ -184,9 +169,6 @@
         }
     }
 
-    /// <summary>
-    /// Отображение полоски здоровья игрока
-    /// </summary>
     static void DrawHealthBar(int x, int y, int percentage)
     {
         Console.SetCursorPosition(x, y);
@@ -203,9 +185,6 @@
         Console.Write($" {percentage}%");
     }
 
-    /// <summary>
-    /// Отработка ввода игрока для перемещения по карте
-    /// </summary>
     static void ProcessInput()
     {
         if (_gameOver) return;
@@ -240,19 +219,11 @@
         }
     }
 
-    /// <summary>
-    /// Проверка, может ли игрок или враг переместиться в указанную позицию на карте
-    /// </summary>
-    /// <returns>True, если перемещение возможно, иначе - False</returns>
     static bool CanMoveTo(int x, int y)
     {
         return x >= 0 && x < _mapWidth && y >= 0 && y < _mapHeight && _map[y, x] != '#';
     }
 
-    /// <summary>
-    /// Нахождение пути от начальной до целевой позиции на карте лабиринта
-    /// </summary>
-    /// <returns>True, если путь найден, иначе - False</returns>
     static bool FindPath(int x, int y, int targetX, int targetY, List<(int X, int Y)> currentPath)
     {
         if (!CanMoveTo(x, y) || currentPath.Contains((x, y)))
