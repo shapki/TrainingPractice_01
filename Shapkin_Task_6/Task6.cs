@@ -8,5 +8,6 @@ namespace Shapkin_Task_6
         {
             InitializeComponent();
         }
+
     }
 }
