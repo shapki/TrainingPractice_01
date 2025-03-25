@@ -16,15 +16,13 @@
 
         ChessPosition chessPosition = GetChessPosition(inputType);
 
-        if (chessPosition != null)
-        {
-            bool canReachTarget = CanWhitePieceReachTarget(chessPosition);
-            if (canReachTarget)
-                Console.WriteLine($"|| {CapitalizeFirstLetter(chessPosition.WhitePieceName)} дойдет до {ConvertPositionToString(chessPosition.TargetX, chessPosition.TargetY)}");
-            else
-                Console.WriteLine($"|| {CapitalizeFirstLetter(chessPosition.WhitePieceName)} не дойдет до {ConvertPositionToString(chessPosition.TargetX, chessPosition.TargetY)}, попадет под удар");
-        }
+        bool canReachTarget = CanWhitePieceReachTarget(chessPosition);
+        if (canReachTarget)
+            Console.WriteLine($"|| {CapitalizeFirstLetter(chessPosition.WhitePieceName)} дойдет до {ConvertPositionToString(chessPosition.TargetX, chessPosition.TargetY)}");
+        else
+            Console.WriteLine($"|| {CapitalizeFirstLetter(chessPosition.WhitePieceName)} не дойдет до {ConvertPositionToString(chessPosition.TargetX, chessPosition.TargetY)}, попадет под удар");
     }
+
 
     static ChessPosition GetChessPosition(int inputType)
     {
@@ -36,54 +34,57 @@
 
     static ChessPosition GetChessPositionFromSingleLine()
     {
-        Console.WriteLine("\n| Формат: название белой фигуры, пробел, координаты белой фигуры, пробел, название черной фигуры, пробел, координаты черной фигуры, координаты конечной точки белой фигуры");
-        Console.WriteLine("| Доступные фигуры: ладья, конь, слон, ферзь, король");
-        Console.Write("|| Введите данные по формату: ");
-        string input = Console.ReadLine();
-
-        string[] inputParts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (inputParts.Length != 5)
+        while (true)
         {
-            Console.WriteLine("|| Неверный формат ввода.");
-            return null;
+            Console.WriteLine("\n| Формат: название белой фигуры, пробел, координаты белой фигуры, пробел, название черной фигуры, пробел, координаты черной фигуры, координаты конечной точки белой фигуры");
+            Console.WriteLine("| Доступные фигуры: ладья, конь, слон, ферзь, король");
+            Console.Write("|| Введите данные по формату: ");
+            string input = Console.ReadLine();
+
+            string[] inputParts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (inputParts.Length != 5)
+            {
+                Console.WriteLine("|| Неверный формат ввода.");
+                continue;
+            }
+
+            string whitePieceName = inputParts[0].ToLower();
+            string whitePiecePosition = inputParts[1].ToLower();
+            string blackPieceName = inputParts[2].ToLower();
+            string blackPiecePosition = inputParts[3].ToLower();
+            string targetPosition = inputParts[4].ToLower();
+
+            if (!IsValidPieceName(whitePieceName) || !IsValidPieceName(blackPieceName))
+            {
+                Console.WriteLine("|| Недопустимое название фигуры.");
+                continue;
+            }
+
+            if (!IsValidPosition(whitePiecePosition) || !IsValidPosition(blackPiecePosition) || !IsValidPosition(targetPosition))
+            {
+                Console.WriteLine("|| Некорректные координаты.");
+                continue;
+            }
+
+            (int whitePieceX, int whitePieceY) = ParsePosition(whitePiecePosition);
+            (int blackPieceX, int blackPieceY) = ParsePosition(blackPiecePosition);
+            (int targetX, int targetY) = ParsePosition(targetPosition);
+
+            // Создание объекта с данными о позиции
+            var chessPosition = new ChessPosition
+            {
+                WhitePieceName = whitePieceName,
+                WhitePieceX = whitePieceX,
+                WhitePieceY = whitePieceY,
+                BlackPieceName = blackPieceName,
+                BlackPieceX = blackPieceX,
+                BlackPieceY = blackPieceY,
+                TargetX = targetX,
+                TargetY = targetY
+            };
+
+            return chessPosition;
         }
-
-        string whitePieceName = inputParts[0].ToLower();
-        string whitePiecePosition = inputParts[1].ToLower();
-        string blackPieceName = inputParts[2].ToLower();
-        string blackPiecePosition = inputParts[3].ToLower();
-        string targetPosition = inputParts[4].ToLower();
-
-        if (!IsValidPieceName(whitePieceName) || !IsValidPieceName(blackPieceName))
-        {
-            Console.WriteLine("|| Недопустимое название фигуры.");
-            return null;
-        }
-
-        if (!IsValidPosition(whitePiecePosition) || !IsValidPosition(blackPiecePosition) || !IsValidPosition(targetPosition))
-        {
-            Console.WriteLine("|| Некорректные координаты.");
-            return null;
-        }
-
-        (int whitePieceX, int whitePieceY) = ParsePosition(whitePiecePosition);
-        (int blackPieceX, int blackPieceY) = ParsePosition(blackPiecePosition);
-        (int targetX, int targetY) = ParsePosition(targetPosition);
-
-        // Создание объекта с данными о позиции
-        var chessPosition = new ChessPosition
-        {
-            WhitePieceName = whitePieceName,
-            WhitePieceX = whitePieceX,
-            WhitePieceY = whitePieceY,
-            BlackPieceName = blackPieceName,
-            BlackPieceX = blackPieceX,
-            BlackPieceY = blackPieceY,
-            TargetX = targetX,
-            TargetY = targetY
-        };
-
-        return chessPosition;
     }
 
     static ChessPosition GetChessPositionFromSeparateLines()
@@ -91,46 +92,56 @@
         Console.WriteLine("\n| Введите данные");
         Console.WriteLine("| Доступные фигуры: ладья, конь, слон, ферзь, король");
 
-        Console.Write("|| Название белой фигуры: ");
-        string whitePieceName = Console.ReadLine().ToLower();
-        if (!IsValidPieceName(whitePieceName))
+        string whitePieceName;
+        while (true)
         {
+            Console.Write("|| Название белой фигуры: ");
+            whitePieceName = Console.ReadLine().ToLower();
+            if (IsValidPieceName(whitePieceName))
+                break;
             Console.WriteLine("|| Недопустимое название фигуры.");
-            return null;
         }
 
-        Console.Write("|| Координаты белой фигуры (например, a1): ");
-        string whitePiecePosition = Console.ReadLine().ToLower();
-        if (!IsValidPosition(whitePiecePosition))
+        string whitePiecePosition;
+        while (true)
         {
+            Console.Write("|| Координаты белой фигуры (например, a1): ");
+            whitePiecePosition = Console.ReadLine().ToLower();
+            if (IsValidPosition(whitePiecePosition))
+                break;
             Console.WriteLine("|| Некорректные координаты.");
-            return null;
         }
         (int whitePieceX, int whitePieceY) = ParsePosition(whitePiecePosition);
 
-        Console.Write("|| Название черной фигуры: ");
-        string blackPieceName = Console.ReadLine().ToLower();
-        if (!IsValidPieceName(blackPieceName))
+        string blackPieceName;
+        while (true)
         {
+            Console.Write("|| Название черной фигуры: ");
+            blackPieceName = Console.ReadLine().ToLower();
+            if (IsValidPieceName(blackPieceName))
+                break;
             Console.WriteLine("|| Недопустимое название фигуры.");
-            return null;
         }
 
-        Console.Write("|| Координаты черной фигуры (например, b2): ");
-        string blackPiecePosition = Console.ReadLine().ToLower();
-        if (!IsValidPosition(blackPiecePosition))
+        string blackPiecePosition;
+        while (true)
         {
+            Console.Write("|| Координаты черной фигуры (например, b2): ");
+            blackPiecePosition = Console.ReadLine().ToLower();
+            if (IsValidPosition(blackPiecePosition))
+                break;
             Console.WriteLine("|| Некорректные координаты.");
-            return null;
         }
         (int blackPieceX, int blackPieceY) = ParsePosition(blackPiecePosition);
 
-        Console.Write("|| Координаты конечной точки белой фигуры (например, c3): ");
-        string targetPosition = Console.ReadLine().ToLower();
-        if (!IsValidPosition(targetPosition))
+        string targetPosition;
+        while (true)
         {
+            Console.Write("|| Координаты конечной точки белой фигуры (например, c3): ");
+            targetPosition = Console.ReadLine().ToLower();
+            if (IsValidPosition(targetPosition))
+                break;
             Console.WriteLine("|| Некорректные координаты.");
-            return null;
         }
         (int targetX, int targetY) = ParsePosition(targetPosition);
 
