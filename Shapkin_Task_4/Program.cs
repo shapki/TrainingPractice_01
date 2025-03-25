@@ -15,9 +15,13 @@
 
     static void Main(string[] args)
     {
+        // Получаем путь к папке проекта.
         string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        //Поднимаемся на два уровня вверх, чтобы оказаться в папке проекта.
         string solutionDirectory = Path.Combine(projectDirectory, "..", "..", "..");
+        // Собираем полный путь к файлу лабиринта.
         string fullPath = Path.Combine(solutionDirectory, _mapFilePath);
+
 
         LoadMap(fullPath);
         SpawnPlayer();
