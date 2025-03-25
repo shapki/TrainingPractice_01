@@ -42,15 +42,17 @@
         string successMessage = $"| Теперь у вас {remainingGold} золота и {acquiredCrystals} кристаллов.";
         string partialMessage = $"| Вы хотели {crystalsToBuy}, но смогли купить только {acquiredCrystals} кристаллов. Теперь у вас {remainingGold} золота и {acquiredCrystals} кристаллов.";
         string failureMessage = $"| Покупка не удалась. У вас осталось {goldAmount} золота.";
+        string[] messages = { successMessage, partialMessage, failureMessage };
 
-        string message =
-            acquiredCrystals == crystalsToBuy ? successMessage :
-            acquiredCrystals > 0 ? partialMessage :
-            failureMessage;
+        // 0, если acquiredCrystals == crystalsToBuy | 1, если acquiredCrystals > 0 | 2, во всех остальных случаях
+        int successIndex = Convert.ToInt32(acquiredCrystals == crystalsToBuy);
+        int partialSuccessIndex = Convert.ToInt32(acquiredCrystals > 0) * 2; // Сдвигаем индекс на 2, чтобы не перекрывать successIndex
+
+        int messageIndex = successIndex * (1 - Convert.ToInt32(acquiredCrystals > 0)) + (1 - successIndex) * partialSuccessIndex / 2;
+        string message = messages[messageIndex];
 
         return (remainingGold, acquiredCrystals, message);
     }
-
 
     static void DisplayPurchaseResult(int remainingGold, int acquiredCrystals, string purchaseMessage)
     {
