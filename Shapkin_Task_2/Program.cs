@@ -162,10 +162,11 @@
 
     static bool IsValidPieceName(string pieceName)
     {
-        foreach (string validName in ValidPieceNames)
-            if (pieceName == validName)
-                return true;
-        return false;
+        //foreach (string validName in ValidPieceNames)
+        //    if (pieceName == validName)
+        //        return true;
+        //return false;
+        return ValidPieceNames.Contains(pieceName);
     }
 
     static bool IsValidPosition(string position)
@@ -195,21 +196,30 @@
 
     static bool CanWhitePieceReachTarget(ChessPosition position)
     {
+        bool result = false;
+
         switch (position.WhitePieceName)
         {
             case "ладья":
-                return CanRookReachTarget(position);
+                result = CanRookReachTarget(position);
+                break;
             case "конь":
-                return CanKnightReachTarget(position);
+                result = CanKnightReachTarget(position);
+                break;
             case "слон":
-                return CanBishopReachTarget(position);
+                result = CanBishopReachTarget(position);
+                break;
             case "ферзь":
-                return CanQueenReachTarget(position);
+                result = CanQueenReachTarget(position);
+                break;
             case "король":
-                return CanKingReachTarget(position);
+                result = CanKingReachTarget(position);
+                break;
             default:
-                return false; // Неизвестная фигура
+                result = false; // Неизвестная фигура
+                break;
         }
+        return result;
     }
 
     static bool CanRookReachTarget(ChessPosition position)
