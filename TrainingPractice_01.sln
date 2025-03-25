@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shapkin_Task_3", "Shapkin_T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shapkin_Task_4", "Shapkin_Task_4\Shapkin_Task_4.csproj", "{8DC34D0F-D11B-4FFA-89AF-EF46E2F6BF58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapkin_Task_5", "Shapkin_Task_5\Shapkin_Task_5.csproj", "{72280090-D163-4411-935D-60618087214C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shapkin_Task_5", "Shapkin_Task_5\Shapkin_Task_5.csproj", "{72280090-D163-4411-935D-60618087214C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
