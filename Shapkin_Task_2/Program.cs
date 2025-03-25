@@ -1,5 +1,8 @@
 ﻿class Program
 {
+    /// <summary>
+    /// Массив допустимых названий шахматных фигур.
+    /// </summary>
     public static readonly string[] ValidPieceNames = { "ладья", "конь", "слон", "ферзь", "король" };
 
     static void Main(string[] args)
@@ -8,27 +11,27 @@
         Console.Write("| Введите исходные данные: ");
         string input = Console.ReadLine();
 
-        string[] parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (parts.Length != 5)
+        string[] inputParts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (inputParts.Length != 5)
         {
             Console.WriteLine("Неверный формат ввода.");
             return;
         }
 
-        string whitePieceName = parts[0].ToLower();
-        string whitePiecePosition = parts[1].ToLower();
-        string blackPieceName = parts[2].ToLower();
-        string blackPiecePosition = parts[3].ToLower();
-        string targetPosition = parts[4].ToLower();
+        string whitePieceName = inputParts[0].ToLower();
+        string whitePiecePosition = inputParts[1].ToLower();
+        string blackPieceName = inputParts[2].ToLower();
+        string blackPiecePosition = inputParts[3].ToLower();
+        string targetPosition = inputParts[4].ToLower();
 
-        // Проверяем допустимость фигур
+        // Проверка допустимости фигур
         if (!IsValidPieceName(whitePieceName) || !IsValidPieceName(blackPieceName))
         {
             Console.WriteLine("Недопустимое название фигуры.");
             return;
         }
 
-        // Проверяем корректность координат и парсим их один раз
+        // Проверка корректности координат
         if (!IsValidPosition(whitePiecePosition) || !IsValidPosition(blackPiecePosition) || !IsValidPosition(targetPosition))
         {
             Console.WriteLine("Некорректные координаты.");
@@ -39,7 +42,7 @@
         (int blackPieceX, int blackPieceY) = ParsePosition(blackPiecePosition);
         (int targetX, int targetY) = ParsePosition(targetPosition);
 
-        // Создаем объект с данными о позиции
+        // Создание объекта с данными о позиции
         var chessPosition = new ChessPosition
         {
             WhitePieceName = whitePieceName,
@@ -63,6 +66,10 @@
         }
     }
 
+    /// <summary>
+    /// Проверка, является ли название фигуры допустимым
+    /// </summary>
+    /// <returns>True, если название допустимо, иначе - False</returns>
     static bool IsValidPieceName(string pieceName)
     {
         foreach (string validName in ValidPieceNames)
@@ -75,6 +82,10 @@
         return false;
     }
 
+    /// <summary>
+    /// Проверка, является ли позиция на шахматной доске допустимой
+    /// </summary>
+    /// <returns>True, если позиция допустима, иначе - False</returns>
     static bool IsValidPosition(string position)
     {
         if (position.Length != 2)
@@ -88,6 +99,10 @@
         return file >= 'a' && file <= 'h' && rank >= '1' && rank <= '8';
     }
 
+    /// <summary>
+    /// Преобразование позиции на шахматной доске в координаты X и Y
+    /// </summary>
+    /// <returns>Кортеж с координатами X и Y</returns>
     static (int, int) ParsePosition(string position)
     {
         int x = position[0] - 'a' + 1;
@@ -95,6 +110,10 @@
         return (x, y);
     }
 
+    /// <summary>
+    /// Определение, может ли белая фигура достичь целевой позиции
+    /// </summary>
+    /// <returns>True, если белая фигура может достичь целевой позиции, иначе - False</returns>
     static bool CanWhitePieceReachTarget(ChessPosition position)
     {
         switch (position.WhitePieceName)
@@ -110,10 +129,14 @@
             case "король":
                 return CanKingReachTarget(position);
             default:
-                return false; // Неизвестная фигура.
+                return false; // Неизвестная фигура
         }
     }
 
+    /// <summary>
+    /// Определение, может ли ладья достичь целевой позиции
+    /// </summary>
+    /// <returns>True, если ладья может достичь целевой позиции, иначе - False</returns>
     static bool CanRookReachTarget(ChessPosition position)
     {
         int rookX = position.WhitePieceX;
@@ -123,7 +146,7 @@
         int targetX = position.TargetX;
         int targetY = position.TargetY;
 
-        // Ладья может двигаться по горизонтали и вертикали.
+        // Ладья может двигаться по горизонтали и вертикали
 
         if (rookX == targetX)
         {
@@ -132,7 +155,7 @@
             {
                 for (int y = rookY + 1; y <= targetY; y++)
                 {
-                    if ((y == blackPieceY && rookX == blackPieceX) || (y == targetY && rookX == blackPieceX && y != blackPieceY))// Препятствие на пути или цель под ударом
+                    if ((y == blackPieceY && rookX == blackPieceX) || (y == targetY && rookX == blackPieceX && y != blackPieceY)) // Препятствие на пути или цель под ударом
                     {
                         return false;
                     }
@@ -143,7 +166,7 @@
             {
                 for (int y = rookY - 1; y >= targetY; y--)
                 {
-                    if ((y == blackPieceY && rookX == blackPieceX) || (y == targetY && rookX == blackPieceX && y != blackPieceY))// Препятствие на пути или цель под ударом
+                    if ((y == blackPieceY && rookX == blackPieceX) || (y == targetY && rookX == blackPieceX && y != blackPieceY)) // Препятствие на пути или цель под ударом
                     {
                         return false;
                     }
@@ -158,7 +181,7 @@
             {
                 for (int x = rookX + 1; x <= targetX; x++)
                 {
-                    if ((x == blackPieceX && rookY == blackPieceY) || (x == targetX && rookY == blackPieceY && x != blackPieceX))// Препятствие на пути или цель под ударом
+                    if ((x == blackPieceX && rookY == blackPieceY) || (x == targetX && rookY == blackPieceY && x != blackPieceX)) // Препятствие на пути или цель под ударом
                     {
                         return false;
                     }
@@ -169,7 +192,7 @@
             {
                 for (int x = rookX - 1; x >= targetX; x--)
                 {
-                    if ((x == blackPieceX && rookY == blackPieceY) || (x == targetX && rookY == blackPieceY && x != blackPieceX))// Препятствие на пути или цель под ударом
+                    if ((x == blackPieceX && rookY == blackPieceY) || (x == targetX && rookY == blackPieceY && x != blackPieceX)) // Препятствие на пути или цель под ударом
                     {
                         return false;
                     }
@@ -181,6 +204,10 @@
         return false; // Недопустимый ход.
     }
 
+    /// <summary>
+    /// Определение, может ли конь достичь целевой позиции
+    /// </summary>
+    /// <returns>True, если конь может достичь целевой позиции, иначе - False</returns>
     static bool CanKnightReachTarget(ChessPosition position)
     {
         int knightX = position.WhitePieceX;
@@ -190,19 +217,23 @@
         int targetX = position.TargetX;
         int targetY = position.TargetY;
 
-        // Конь ходит буквой "Г".
+        // Конь ходит буквой "Г"
         int deltaX = Math.Abs(knightX - targetX);
         int deltaY = Math.Abs(knightY - targetY);
 
         if ((deltaX == 2 && deltaY == 1) || (deltaX == 1 && deltaY == 2))
         {
-            if (targetX == blackPieceX && targetY == blackPieceY) return false; //Цель под ударом
+            if (targetX == blackPieceX && targetY == blackPieceY) return false; // Цель под ударом
             return true;
         }
 
-        return false; // Недопустимый ход.
+        return false; // Недопустимый ход
     }
 
+    /// <summary>
+    /// Определение, может ли слон достичь целевой позиции
+    /// </summary>
+    /// <returns>True, если слон может достичь целевой позиции, иначе - False</returns>
     static bool CanBishopReachTarget(ChessPosition position)
     {
         int bishopX = position.WhitePieceX;
@@ -211,7 +242,8 @@
         int blackPieceY = position.BlackPieceY;
         int targetX = position.TargetX;
         int targetY = position.TargetY;
-        // Слон ходит по диагонали.
+
+        // Слон ходит по диагонали
         if (Math.Abs(bishopX - targetX) == Math.Abs(bishopY - targetY))
         {
             int xDirection = (targetX > bishopX) ? 1 : -1;
@@ -224,27 +256,35 @@
             {
                 if (currentX == blackPieceX && currentY == blackPieceY)
                 {
-                    return false; // Препятствие на пути.
+                    return false; // Препятствие на пути
                 }
 
                 currentX += xDirection;
                 currentY += yDirection;
             }
 
-            if (targetX == blackPieceX && targetY == blackPieceY) return false; //Цель под ударом
+            if (targetX == blackPieceX && targetY == blackPieceY) return false; // Цель под ударом
 
             return true;
         }
 
-        return false; // Недопустимый ход.
+        return false; // Недопустимый ход
     }
 
+    /// <summary>
+    /// Определение, может ли ферзь достичь целевой позиции
+    /// </summary>
+    /// <returns>True, если ферзь может достичь целевой позиции, иначе - False</returns>
     static bool CanQueenReachTarget(ChessPosition position)
     {
-        // Ферзь ходит как ладья и слон.
+        // Ферзь ходит как ладья и слон
         return CanRookReachTarget(position) || CanBishopReachTarget(position);
     }
 
+    /// <summary>
+    /// Определение, может ли король достичь целевой позиции
+    /// </summary>
+    /// <returns>True, если король может достичь целевой позиции, иначе - False</returns>
     static bool CanKingReachTarget(ChessPosition position)
     {
         int kingX = position.WhitePieceX;
@@ -254,19 +294,23 @@
         int targetX = position.TargetX;
         int targetY = position.TargetY;
 
-        // Король ходит на одну клетку в любом направлении.
+        // Король ходит на одну клетку в любом направлении
         int deltaX = Math.Abs(kingX - targetX);
         int deltaY = Math.Abs(kingY - targetY);
 
         if (deltaX <= 1 && deltaY <= 1)
         {
-            if (targetX == blackPieceX && targetY == blackPieceY) return false; //Цель под ударом
+            if (targetX == blackPieceX && targetY == blackPieceY) return false; // Цель под ударом
             return true;
         }
 
-        return false; // Недопустимый ход.
+        return false; // Недопустимый ход
     }
 
+    /// <summary>
+    /// Преобразование первой буквы строки в заглавную
+    /// </summary>
+    /// <returns>Строка с первой заглавной буквой</returns>
     static string CapitalizeFirstLetter(string str)
     {
         if (string.IsNullOrEmpty(str))
@@ -277,6 +321,9 @@
     }
 }
 
+/// <summary>
+/// Информация о позиции фигур на шахматной доске
+/// </summary>
 class ChessPosition
 {
     public string WhitePieceName { get; set; }

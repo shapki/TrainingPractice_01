@@ -12,15 +12,15 @@
         _sudokuGrid = new int[GridSize, GridSize];
 
         _difficultyLevel = GetDifficultyLevel();
-        LoadSudokuFromFile(_difficultyLevel);
+        LoadSudokuGridFromFile(_difficultyLevel);
 
         PrintSudokuGrid();
     }
 
     /// <summary>
-    /// Получает уровень сложности от пользователя.
+    /// Запрос уровня сложности
     /// </summary>
-    /// <returns>Уровень сложности (1 - Легкий, 2 - Средний, 3 - Сложный).</returns>
+    /// <returns>Выбранный уровень сложности (1 - Легкий, 2 - Средний, 3 - Сложный)</returns>
     static int GetDifficultyLevel()
     {
         int difficulty;
@@ -43,10 +43,9 @@
     }
 
     /// <summary>
-    /// Загружает судоку из файла, соответствующего выбранному уровню сложности.
+    /// Загрузка судоку из файла, соответствующего выбранному уровню сложности
     /// </summary>
-    /// <param name="difficultyLevel">Уровень сложности.</param>
-    static void LoadSudokuFromFile(int difficultyLevel)
+    static void LoadSudokuGridFromFile(int difficultyLevel)
     {
         string fileName = $"sudoku_level{difficultyLevel}.txt"; // Файлы должны быть в TrainingPractice_01\Shapkin_Task_5\bin\Debug\net8.0
 
@@ -57,7 +56,7 @@
             if (lines.Length != GridSize)
             {
                 Console.WriteLine($"Ошибка: Файл {fileName} должен содержать {GridSize} строк.");
-                InitializeEmptySudoku();
+                InitializeEmptySudokuGrid();
                 return;
             }
 
@@ -67,7 +66,7 @@
                 if (numbers.Length != GridSize)
                 {
                     Console.WriteLine($"Ошибка: Строка {i + 1} файла {fileName} должна содержать {GridSize} чисел, разделенных запятыми.");
-                    InitializeEmptySudoku();
+                    InitializeEmptySudokuGrid();
                     return;
                 }
 
@@ -80,7 +79,7 @@
                     else
                     {
                         Console.WriteLine($"Ошибка: Некорректное число в строке {i + 1}, позиции {j + 1} файла {fileName}.");
-                        InitializeEmptySudoku();
+                        InitializeEmptySudokuGrid();
                         return;
                     }
                 }
@@ -89,19 +88,19 @@
         catch (FileNotFoundException)
         {
             Console.WriteLine($"Файл {fileName} не найден. Инициализация пустой судоку.");
-            InitializeEmptySudoku();
+            InitializeEmptySudokuGrid();
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Произошла ошибка при чтении файла: {ex.Message}. Инициализация пустой судоку.");
-            InitializeEmptySudoku();
+            InitializeEmptySudokuGrid();
         }
     }
 
     /// <summary>
-    /// Инициализирует судоку нулями (пустое судоку).
+    /// Инициализация судоку, заполняя его нулями (пустотой)
     /// </summary>
-    static void InitializeEmptySudoku()
+    static void InitializeEmptySudokuGrid()
     {
         for (int i = 0; i < GridSize; i++)
         {
@@ -113,7 +112,7 @@
     }
 
     /// <summary>
-    /// Выводит судоку на консоль.
+    /// Вывод судоку в формате таблицы
     /// </summary>
     static void PrintSudokuGrid()
     {

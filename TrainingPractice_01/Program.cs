@@ -1,49 +1,54 @@
-﻿using System;
-
-namespace Shapkin_Task_1
+﻿class Program
 {
-    class Program
+    /// <summary>
+    /// Цена одного кристалла
+    /// </summary>
+    public const int CrystalPrice = 15;
+
+    static void Main(string[] args)
     {
-        public const int CrystalPrice = 15;
+        Console.Write($"-- Добро пожаловать в магазин Кристалов по {CrystalPrice} золота!\n");
 
-        static void Main(string[] args)
-        {
-            Console.Write("-- Добро пожаловать в магазин Кристалов по {0} золота!\n", CrystalPrice);
+        Console.Write("| Сколько золота у вас? : ");
+        int initialGoldAmount = int.Parse(Console.ReadLine());
 
-            Console.Write("| Сколько золота у вас? : ");
-            int initialGold = int.Parse(Console.ReadLine());
+        Console.Write("| Сколько кристалов вы хотите купить? : ");
+        int crystalsToBuy = int.Parse(Console.ReadLine());
 
-            Console.Write("| Сколько кристалов вы хотите купить? : ");
-            int crystalsToPurchase = int.Parse(Console.ReadLine());
+        int totalPurchaseCost = CalculatePurchaseCost(crystalsToBuy);
+        (int remainingGold, int acquiredCrystals, string purchaseMessage) = PerformPurchase(initialGoldAmount, totalPurchaseCost, crystalsToBuy);
 
-            int purchaseCost = CalculatePurchaseCost(crystalsToPurchase);
-            (int remainingGold, int acquiredCrystals, string message) = PerformPurchase(initialGold, purchaseCost, crystalsToPurchase);
+        DisplayPurchaseResult(remainingGold, acquiredCrystals, purchaseMessage);
+    }
 
-            DisplayPurchaseResult(remainingGold, acquiredCrystals, message);
-        }
+    static int CalculatePurchaseCost(int crystalsToBuy)
+    {
+        return crystalsToBuy * CrystalPrice;
+    }
 
-        static int CalculatePurchaseCost(int crystalsToBuy)
-        {
-            return crystalsToBuy * CrystalPrice;
-        }
+    /// <summary>
+    /// Выполнение покупки кристаллов, вычисляя остаток золота и количество приобретенных кристаллов
+    /// </summary>
+    /// <returns>Несколько параметров, содержащие остаток золота, количество приобретенных кристаллов и сообщение о результате покупки</returns>
+    static (int, int, string) PerformPurchase(int goldAmount, int purchaseCost, int crystalsToBuy)
+    {
+        bool isPurchaseSuccessful = goldAmount >= purchaseCost;
+        int remainingGold = isPurchaseSuccessful ? goldAmount - purchaseCost : goldAmount;
+        int acquiredCrystals = isPurchaseSuccessful ? crystalsToBuy : 0;
 
-        static (int, int, string) PerformPurchase(int gold, int purchaseCost, int crystalsToBuy)
-        {
-            int purchaseSuccessful = (gold >= purchaseCost) ? 1 : 0;
-            int remainingGold = gold - (purchaseCost * purchaseSuccessful);
-            int acquiredCrystals = crystalsToBuy * purchaseSuccessful;
+        string successMessage = $"| Теперь у вас {remainingGold} золота и {acquiredCrystals} кристаллов.";
+        string failureMessage = $"Покупка не удалась. У вас осталось {goldAmount} золота";
 
-            string successMessage = $"| Теперь у вас {remainingGold} золота и {acquiredCrystals} кристаллов.";
-            string failureMessage = $"Покупка не удалась. У вас осталось {gold} золота";
+        string message = isPurchaseSuccessful ? successMessage : failureMessage;
 
-            string message = (purchaseSuccessful == 1) ? successMessage : failureMessage;
+        return (remainingGold, acquiredCrystals, message);
+    }
 
-            return (remainingGold, acquiredCrystals, message);
-        }
-
-        static void DisplayPurchaseResult(int remainingGold, int acquiredCrystals, string message)
-        {
-            Console.WriteLine(message);
-        }
+    /// <summary>
+    /// Отображение результата покупки
+    /// </summary>
+    static void DisplayPurchaseResult(int remainingGold, int acquiredCrystals, string purchaseMessage)
+    {
+        Console.WriteLine(purchaseMessage);
     }
 }

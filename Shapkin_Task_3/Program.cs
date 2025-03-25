@@ -20,22 +20,31 @@
             Console.WriteLine("_______________________________________________________");
             PrintAvailableActions();
             Console.Write("| Выберите действие: ");
-            string action = Console.ReadLine().ToLower();
+            string playerAction = Console.ReadLine().ToLower();
 
-            ProcessAction(action);
+            ProcessPlayerAction(playerAction);
 
             if (!_isInInterdimensionalRift)
+            {
                 ApplyBossDamage();
+            }
 
             _isInInterdimensionalRift = false;
         }
 
         if (_playerHealth <= 0)
+        {
             Console.WriteLine("--   Вы погибли! Босс победил.");
+        }
         else if (_bossHealth <= 0)
+        {
             Console.WriteLine("--   Вы победили Босса! Наступил покой.");
+        }
     }
 
+    /// <summary>
+    /// Вывод списка доступных действий для игрока
+    /// </summary>
     static void PrintAvailableActions()
     {
         Console.WriteLine("-- Доступные действия:");
@@ -46,9 +55,12 @@
         Console.WriteLine("5. Йомоцухирасака - призыв скелетов(урон 50-250)");
     }
 
-    static void ProcessAction(string action)
+    /// <summary>
+    /// Отработка действия, выбранного игроком
+    /// </summary>
+    static void ProcessPlayerAction(string playerAction)
     {
-        switch (action)
+        switch (playerAction)
         {
             case "рашамон":
             case "1":
@@ -76,6 +88,9 @@
         }
     }
 
+    /// <summary>
+    /// Выполнение действия 1 "Рашамон" - призыв теневого духа
+    /// </summary>
     static void CastRashamon()
     {
         Console.WriteLine("--   Вы призываете Рашамон!");
@@ -84,6 +99,9 @@
         Console.WriteLine($"--   Ваше здоровье: {_playerHealth}");
     }
 
+    /// <summary>
+    /// Выполнение действия 2 "Хуганзакура" - атака теневым духом
+    /// </summary>
     static void CastHuganzakura()
     {
         if (_isShadowSpiritSummoned)
@@ -99,6 +117,9 @@
         }
     }
 
+    /// <summary>
+    /// Выполнение действия 3 "Межпространственный разлом" - восстановление здоровья и уклонение от атаки
+    /// </summary>
     static void CastInterdimensionalRift()
     {
         Console.WriteLine("--   Вы скрываетесь в межпространственном разломе!");
@@ -111,6 +132,9 @@
         Console.WriteLine($"--   Ваше здоровье: {_playerHealth}");
     }
 
+    /// <summary>
+    /// Выполнение действия 4 "Катонгокакю" - огненный шар
+    /// </summary>
     static void CastKatongoKakyu()
     {
         Console.WriteLine("--   Катон Гокакю! Огненный шар!");
@@ -118,6 +142,9 @@
         Console.WriteLine($"--   Здоровье Босса: {_bossHealth}");
     }
 
+    /// <summary>
+    /// Выполнение действия 5 "Йомоцухирасака" - призыв скелетов
+    /// </summary>
     static void CastYomotsuHirasaka()
     {
         Console.WriteLine("--   Йомоцухирасака! Врата в царство мертвых открываются!");
@@ -126,6 +153,9 @@
         Console.WriteLine($"--   Нанесено {damage} урона. Здоровье Босса: {_bossHealth}");
     }
 
+    /// <summary>
+    /// Нанесение урона игроку от атаки босса.
+    /// </summary>
     static void ApplyBossDamage()
     {
         Console.WriteLine("--   Босс атакует!");
