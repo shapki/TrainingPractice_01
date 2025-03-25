@@ -39,16 +39,18 @@
         int purchaseCost = CalculatePurchaseCost(acquiredCrystals);
         int remainingGold = goldAmount - purchaseCost;
 
-        string message;
-        if (acquiredCrystals == crystalsToBuy)
-            message = $"| Теперь у вас {remainingGold} золота и {acquiredCrystals} кристаллов.";
-        else if (acquiredCrystals > 0)
-            message = $"| Вы хотели {crystalsToBuy}, но смогли купить только {acquiredCrystals} кристаллов. Теперь у вас {remainingGold} золота и {acquiredCrystals} кристаллов.";
-        else
-            message = $"| Покупка не удалась. У вас осталось {goldAmount} золота.";
+        string successMessage = $"| Теперь у вас {remainingGold} золота и {acquiredCrystals} кристаллов.";
+        string partialMessage = $"| Вы хотели {crystalsToBuy}, но смогли купить только {acquiredCrystals} кристаллов. Теперь у вас {remainingGold} золота и {acquiredCrystals} кристаллов.";
+        string failureMessage = $"| Покупка не удалась. У вас осталось {goldAmount} золота.";
+
+        string message =
+            acquiredCrystals == crystalsToBuy ? successMessage :
+            acquiredCrystals > 0 ? partialMessage :
+            failureMessage;
 
         return (remainingGold, acquiredCrystals, message);
     }
+
 
     static void DisplayPurchaseResult(int remainingGold, int acquiredCrystals, string purchaseMessage)
     {
