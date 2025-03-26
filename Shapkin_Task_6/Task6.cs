@@ -40,7 +40,7 @@ namespace Shapkin_Task_6
             difficultyComboBox.SelectedIndex = 0;
 
             _saveTimer = new Timer();
-            _saveTimer.Interval = 60000; // 1 минута
+            _saveTimer.Interval = 60*1000; // 1 минута
             _saveTimer.Tick += SaveTimer_Tick;
             _saveTimer.Start();
         }
