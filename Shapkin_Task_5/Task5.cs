@@ -136,13 +136,16 @@ namespace Shapkin_Task_5
                     _textBoxes[row, col] = new TextBox();
                     _textBoxes[row, col].TextAlign = HorizontalAlignment.Center;
                     _textBoxes[row, col].Dock = DockStyle.Fill;
-                    _textBoxes[row, col].Font = new Font("Arial", 16, FontStyle.Bold);
+                    _textBoxes[row, col].Multiline = true;
+                    _textBoxes[row, col].MaxLength = 1;
+                    _textBoxes[row, col].Font = new Font("Arial", 18, FontStyle.Bold);
                     _textBoxes[row, col].Margin = new Padding(1);
 
                     if ((row / 3 + col / 3) % 2 == 0)
                         _textBoxes[row, col].BackColor = Color.White;
                     else
                         _textBoxes[row, col].BackColor = Color.LightGray;
+
                     _textBoxes[row, col].TextChanged += TextBox_TextChanged;
                     _textBoxes[row, col].KeyPress += TextBox_KeyPress;
 
