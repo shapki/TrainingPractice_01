@@ -179,6 +179,8 @@ namespace Shapkin_Task_5
         {
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != 8) // 8 - это Backspace
                 e.Handled = true;
+            if (e.KeyChar == '0')
+                e.Handled = true;
         }
 
         private void TextBox_TextChanged(object sender, EventArgs e)
