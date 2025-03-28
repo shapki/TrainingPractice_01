@@ -8,7 +8,6 @@ namespace Shapkin_Task_7
     public partial class Task7 : Form
     {
         private const int BoardSize = 7;
-        private const int FirstRow = 3;
 
         private GameBoardFacade _gameBoardFacade;
         private Point _selectedPiece;
