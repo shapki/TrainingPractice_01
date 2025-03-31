@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapkin_Task_5", "Shapkin_T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapkin_Task_7", "Shapkin_Task_7\Shapkin_Task_7.csproj", "{2AB7D22A-737B-4B4D-8AB7-2D4B1F3663B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapkin_Task_8", "Shapkin_Task_8\Shapkin_Task_8.csproj", "{967EDC7A-24EC-4C75-BFF0-81EBCC6E4B89}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{2AB7D22A-737B-4B4D-8AB7-2D4B1F3663B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AB7D22A-737B-4B4D-8AB7-2D4B1F3663B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AB7D22A-737B-4B4D-8AB7-2D4B1F3663B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{967EDC7A-24EC-4C75-BFF0-81EBCC6E4B89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{967EDC7A-24EC-4C75-BFF0-81EBCC6E4B89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{967EDC7A-24EC-4C75-BFF0-81EBCC6E4B89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{967EDC7A-24EC-4C75-BFF0-81EBCC6E4B89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
