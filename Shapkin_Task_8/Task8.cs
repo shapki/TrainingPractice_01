@@ -34,7 +34,7 @@ namespace Shapkin_Task_8
 
         private void ShapedForm1_HelpButtonClicked(object sender, CancelEventArgs e)
         {
-            if (MessageBox.Show("Симуляция инфекций.\n\nБелые клетки - инфекции нет\nКрасные клетки - инфекция есть\nЗеленые клетки - болеющие", "Инфекция гйда - Информация", MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
+            if (MessageBox.Show("Симуляция инфекций.\n\nБелые клетки - здоровые\nКрасные клетки - инфицированные\nЗеленые клетки - с иммунитиетом", "Инфекция гйда - Информация", MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
                 e.Cancel = true;
         }
 
