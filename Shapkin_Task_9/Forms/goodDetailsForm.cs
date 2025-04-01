@@ -61,11 +61,10 @@ namespace Shapkin_Task_9.Forms
 
             if (_good != null)
             {
-                txtName.Text = _good.GoodName;
-                txtPrice.Text = _good.Price.ToString();
-                txtPhoto.Text = _good.Picture;
-                txtDesc.Text = _good.Description;
-                comboCategory.SelectedValue = _good.CategoryId;
+                txtName.Text = "";
+                txtPrice.Text = "";
+                txtPhoto.Text = "";
+                txtDesc.Text = "";
                 UpdateGoodPhoto();
             }
         }
