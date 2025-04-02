@@ -65,7 +65,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppData\AuthenticationService.cs" />
+    <Compile Include="AppData\IAuthenticationService.cs" />
+    <Compile Include="AppData\IItemsService.cs" />
     <Compile Include="AppData\ISalesService.cs" />
+    <Compile Include="AppData\ItemsService.cs" />
     <Compile Include="AppData\SalesData.cs" />
     <Compile Include="AppData\SalesService.cs" />
     <Compile Include="AppForms\fmContacts.cs">
