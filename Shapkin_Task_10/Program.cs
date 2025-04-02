@@ -1,6 +1,7 @@
 ﻿using Shapkin_Task_10.AppData;
 using Shapkin_Task_10.Models;
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace Shapkin_Task_10.Forms
@@ -14,18 +15,19 @@ namespace Shapkin_Task_10.Forms
         [STAThread]
         static void Main()
         {
-            if (!context.Database.Exists())
-            {
-                MessageBox.Show("Не удаётся установить соединение с базой данных", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            Debug.Assert(context.Database.Exists(), "Не удаётся установить соединение с базой данных");
+            //if (!context.Database.Exists())
+            //{
+            //    MessageBox.Show("Не удаётся установить соединение с базой данных", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Создаем и передаем экземпляры сервисов
             ItemsService itemsService = new ItemsService();
-            Application.Run(new MainWindow(itemsService));
+            Application.Run(new MainWindow(itemsService));  
         }
     }
 }
